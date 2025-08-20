@@ -28,27 +28,24 @@ public class MovieController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-//
-//    // יצירת סרט חדש
-//    @PostMapping
-//    public Movie createMovie(@RequestBody Movie movie) {
-//        return movieService.saveMovie(movie);
-//    }
-//
-//    // עדכון סרט קיים
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody Movie movieDetails) {
-//        return movieService.updateMovie(id, movieDetails)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    // מחיקת סרט
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
-//        if (movieService.deleteMovie(id)) {
-//            return ResponseEntity.noContent().build();
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
+
+    @PostMapping
+    public Movie createNewMovie(@RequestBody Movie movie) {
+        return movieService.createNewMovie(movie);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody Movie movieDetails) {
+        return movieService.updateMovie(id, movieDetails)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
+        if (movieService.deleteMovie(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
