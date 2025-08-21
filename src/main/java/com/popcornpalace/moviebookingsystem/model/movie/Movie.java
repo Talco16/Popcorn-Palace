@@ -1,31 +1,35 @@
-package com.popcornpalace.moviebookingsystem.movie;
+package com.popcornpalace.moviebookingsystem.model.movie;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
+@Table(name = "movies", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_movie_title", columnNames = "title") // Enforce unique titles
+})
 public class Movie {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Title is required")
+    @Column(nullable = false)
     private String title;
 
     @NotBlank(message = "Genre is required")
+    @Pattern(regexp = "^[A-Za-zא-ת ]+$", message = "Genre must contain English/Hebrew letters and spaces")
     private String genre;
 
+    @Column(nullable = false)
     @Min(value = 1, message = "Duration must be at least 1 minute")
     private int duration;
 
+    @Column(nullable = false)
     @Min(value = 1888, message = "Release year must be valid")
     @Max(value = 2100, message = "Release year must be valid")
     private int releaseYear;
 
+    @Column(nullable = false)
     @DecimalMin(value = "0.0", message = "Rating cannot be negative")
     @DecimalMax(value = "10.0", message = "Rating cannot exceed 10")
     private double rating;
@@ -40,7 +44,6 @@ public class Movie {
         this.rating = rating;
     }
 
-    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
