@@ -1,6 +1,7 @@
-package com.popcornpalace.moviebookingsystem.movie;
+package com.popcornpalace.moviebookingsystem.services;
 
-import com.popcornpalace.moviebookingsystem.model.movie.Movie;
+import com.popcornpalace.moviebookingsystem.models.Movie;
+import com.popcornpalace.moviebookingsystem.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

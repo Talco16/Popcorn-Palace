@@ -1,6 +1,5 @@
-package com.popcornpalace.moviebookingsystem.model.showtime;
+package com.popcornpalace.moviebookingsystem.models;
 
-import com.popcornpalace.moviebookingsystem.model.movie.Movie;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 

@@ -1,6 +1,7 @@
-package com.popcornpalace.moviebookingsystem.movie;
+package com.popcornpalace.moviebookingsystem.controllers;
 
-import com.popcornpalace.moviebookingsystem.model.movie.Movie;
+import com.popcornpalace.moviebookingsystem.models.Movie;
+import com.popcornpalace.moviebookingsystem.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,12 +10,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/movies")
-public class MovieController {
+public class ShowtimeController {
 
     private final MovieService movieService;
 
     @Autowired
-    public MovieController(MovieService movieService) {
+    public ShowtimeController(MovieService movieService) {
         this.movieService = movieService;
     }
 

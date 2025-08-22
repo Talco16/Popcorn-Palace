@@ -1,4 +1,4 @@
-package com.popcornpalace.moviebookingsystem.model.movie;
+package com.popcornpalace.moviebookingsystem.util.rqeuests;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 @Table(name = "movies", uniqueConstraints = {
         @UniqueConstraint(name = "uk_movie_title", columnNames = "title") // Enforce unique titles
 })
-public class Movie {
+public class ShowtimeRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,9 +34,9 @@ public class Movie {
     @DecimalMax(value = "10.0", message = "Rating cannot exceed 10")
     private double rating;
 
-    public Movie() {}
+    public ShowtimeRequest() {}
 
-    public Movie(String title, String genre, int duration, int releaseYear, double rating) {
+    public ShowtimeRequest(String title, String genre, int duration, int releaseYear, double rating) {
         this.title = title;
         this.genre = genre;
         this.duration = duration;
