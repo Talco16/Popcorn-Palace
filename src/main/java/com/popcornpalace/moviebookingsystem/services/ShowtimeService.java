@@ -1,49 +1,47 @@
 package com.popcornpalace.moviebookingsystem.services;
 
 import com.popcornpalace.moviebookingsystem.models.Movie;
-import com.popcornpalace.moviebookingsystem.repositories.MovieRepository;
+import com.popcornpalace.moviebookingsystem.models.Showtime;
+import com.popcornpalace.moviebookingsystem.repositories.ShowtimeRepository;
+import com.popcornpalace.moviebookingsystem.util.rqeuests.ShowtimeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ShowtimeService {
 
-    private final MovieRepository movieRepository;
+    private final ShowtimeRepository showtimeRepository;
 
     @Autowired
-    public ShowtimeService(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
+    public ShowtimeService(ShowtimeRepository showtimeRepository) {
+        this.showtimeRepository = showtimeRepository;
     }
 
-    public List<Movie> getAllMovies() {
-        return movieRepository.getAllMovies();
-    }
-
-    public Optional<Movie> getMovieById(Long id) {
-        return Optional.ofNullable(movieRepository.getMovieById(id)
+    public Optional<Showtime> getShowTimeById(Long id) {
+        return Optional.ofNullable(showtimeRepository.getShowTimeById(id)
                 .orElseThrow(() -> new RuntimeException("Movie not found"))
         );
     }
 
-    public Movie createNewMovie(Movie movie) {
-        return movieRepository.createNewMovie(movie);
+    public Showtime createNewShowTime(Showtime showtime) {
+        return showtimeRepository.createNewShowTime(showtime);
     }
 
-    public Optional<Movie> updateMovie(Long id, Movie movieDetails) {
-        return movieRepository.findById(id).map(movie -> {
-            movie.setTitle(movieDetails.getTitle());
-            movie.setGenre(movieDetails.getGenre());
-            movie.setDuration(movieDetails.getDuration());
-            return movieRepository.save(movie);
+    public Showtime updateShowTime(Long id, ShowtimeRequest showtime) {
+        return this.getShowTimeById(id).map(showtime -> {
+            //TODO: Fix this logic!
+//            showtime.setTitle(movieDetails.getTitle());
+//            showtime.setGenre(movieDetails.getGenre());
+//            showtime.setDuration(movieDetails.getDuration());
+            return showtimeRepository.save(movie);
         });
     }
 
     public boolean deleteMovie(Long id) {
-        if (movieRepository.existsById(id)) {
-            movieRepository.deleteMovie(id);
+        if (this.getShowTimeById(id).isPresent()) {
+            showtimeRepository.deleteMovie(id);
             return true;
         }
 

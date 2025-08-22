@@ -1,24 +1,19 @@
 package com.popcornpalace.moviebookingsystem.repositories;
 
-import com.popcornpalace.moviebookingsystem.models.Movie;
+import com.popcornpalace.moviebookingsystem.models.Showtime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ShowtimeRepository extends JpaRepository<Movie, Long> {
-    default List<Movie> getAllMovies() {
-        return findAll();
-    }
-
-    default Optional<Movie> getMovieById(Long id) {
+public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
+    default Optional<Showtime> getShowTimeById(Long id) {
         return findById(id);
     }
 
-    default Movie createNewMovie(Movie movie) {
-        return save(movie);
+    default Showtime createNewShowTime(Showtime showtime) {
+        return save(showtime);
     }
 
     default void deleteMovie(Long id) {

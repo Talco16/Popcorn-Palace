@@ -4,10 +4,15 @@ import com.popcornpalace.moviebookingsystem.models.Movie;
 import com.popcornpalace.moviebookingsystem.services.BookingService;
 import com.popcornpalace.moviebookingsystem.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+/**
+ * BookingController is responsible for managing ticket booking in the system.
+ * It provides a RESTful API.
+ * Each operation is mapped to the conventional HTTP methods in REST:
+ * POST for create new ticket booking.
+ * Created by Tal Cohen.
+ */
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -17,38 +22,12 @@ public class BookingController {
 
     @Autowired
     public BookingController(MovieService movieService) {
-        this.movieService = movieService;
+        this.bookingService = bookingService;
     }
 
-    @GetMapping
-    public List<Movie> getAllMovies() {
-        return movieService.getAllMovies();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
-        return movieService.getMovieById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
+    // Post request for booking ticket.
     @PostMapping
-    public Movie createNewMovie(@RequestBody Movie movie) {
-        return movieService.createNewMovie(movie);
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody Movie movieDetails) {
-        return movieService.updateMovie(id, movieDetails)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
-        if (movieService.deleteMovie(id)) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    public Movie bookTicket(@RequestBody Movie movie) {
+        return bookingService.createNewMovie(movie);
     }
 }

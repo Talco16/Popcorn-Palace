@@ -1,5 +1,6 @@
 package com.popcornpalace.moviebookingsystem.util.rqeuests;
 
+import com.popcornpalace.moviebookingsystem.models.Showtime;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -7,7 +8,7 @@ import jakarta.validation.constraints.*;
 @Table(name = "movies", uniqueConstraints = {
         @UniqueConstraint(name = "uk_movie_title", columnNames = "title") // Enforce unique titles
 })
-public class ShowtimeRequest {
+public class ShowtimeRequest extends Showtime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
