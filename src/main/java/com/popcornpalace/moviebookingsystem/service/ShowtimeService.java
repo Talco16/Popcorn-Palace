@@ -5,6 +5,7 @@ import com.popcornpalace.moviebookingsystem.model.Showtime;
 import com.popcornpalace.moviebookingsystem.repository.MovieRepository;
 import com.popcornpalace.moviebookingsystem.repository.ShowtimeRepository;
 import com.popcornpalace.moviebookingsystem.util.reqeuest.ShowtimeRequest;
+import com.popcornpalace.moviebookingsystem.util.response.ShowtimeResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,12 @@ public class ShowtimeService {
 
     public Optional<Showtime> getShowTimeById(Long id) {
         return showtimeRepository.findById(id);
+    }
+
+    public ShowtimeResponse getShowTimeById(Long id) {
+        Showtime showtime = showtimeRepository.findWithMovieById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Showtime " + id + " not found"));
+        return mapper.toDto(s);
     }
 
 
@@ -62,6 +69,7 @@ public class ShowtimeService {
         return Optional.of(showtimeRepository.save(newShowTime));
     }
 
+    // TODO: Need to build Showtime response.
     @Transactional
     public Optional<Showtime> updateShowtime(Long id, @Valid ShowtimeRequest updatedShowtime) {
         return showtimeRepository.findById(id).map(showtime -> {

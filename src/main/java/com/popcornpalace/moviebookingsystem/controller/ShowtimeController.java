@@ -3,6 +3,7 @@ package com.popcornpalace.moviebookingsystem.controller;
 import com.popcornpalace.moviebookingsystem.model.Showtime;
 import com.popcornpalace.moviebookingsystem.service.ShowtimeService;
 import com.popcornpalace.moviebookingsystem.util.reqeuest.ShowtimeRequest;
+import com.popcornpalace.moviebookingsystem.util.response.ShowtimeResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +33,8 @@ public class ShowtimeController {
 
     // GET Request to fetch specific showtime by id.
     @GetMapping("/{id}")
-    public ResponseEntity<Showtime> getShowTimeById(@PathVariable Long id) {
-        return showtimeService.getShowTimeById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ShowtimeResponse> one(@PathVariable Long id) {
+        return ResponseEntity.ok(showtimeService.getShowTimeById(id));
     }
 
     // POST Request to add showtime.

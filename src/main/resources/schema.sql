@@ -1,7 +1,3 @@
-CREATE TABLE IF NOT EXISTS task (
-                                    description VARCHAR(64) NOT NULL,
-    completed   VARCHAR(30) NOT NULL);
-
 DROP TABLE IF EXISTS bookings CASCADE;
 DROP TABLE IF EXISTS showtimes CASCADE;
 DROP TABLE IF EXISTS movies CASCADE;

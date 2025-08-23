@@ -13,7 +13,6 @@ import jakarta.validation.constraints.Positive;
                 @Index(name="idx_booking_showtime", columnList="showtime_id")
         })
 public class Booking {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
