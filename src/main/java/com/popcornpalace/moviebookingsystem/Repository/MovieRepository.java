@@ -1,6 +1,6 @@
-package com.popcornpalace.moviebookingsystem.repositories;
+package com.popcornpalace.moviebookingsystem.Repository;
 
-import com.popcornpalace.moviebookingsystem.models.Movie;
+import com.popcornpalace.moviebookingsystem.Model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BookingRepository extends JpaRepository<Movie, Long> {
+public interface MovieRepository extends JpaRepository<Movie, Long> {
     default List<Movie> getAllMovies() {
         return findAll();
     }

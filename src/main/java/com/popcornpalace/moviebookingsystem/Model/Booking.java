@@ -1,4 +1,4 @@
-package com.popcornpalace.moviebookingsystem.models;
+package com.popcornpalace.moviebookingsystem.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -7,18 +7,20 @@ import jakarta.validation.constraints.Positive;
 @Entity
 @Table(name = "bookings",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_showtime_seat", columnNames = {"showtime_id", "seat_number"})
-        }
-)
+                @UniqueConstraint(name="uk_showtime_seat", columnNames={"showtime_id","seat_number"})
+        },
+        indexes = {
+                @Index(name="idx_booking_showtime", columnList="showtime_id")
+        })
 public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false) // Represents the relationship with Showtime entity
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "showtime_id", nullable = false)
-    private Showtime showtime; // Use the Showtime entity directly
+    private Showtime showtime;
 
     @Positive
     @Column(name = "seat_number", nullable = false)
@@ -27,6 +29,14 @@ public class Booking {
     @NotBlank
     @Column(nullable = false)
     private String userId;
+
+    public Booking(){}
+
+    public Booking( Showtime showtime , int seatNumber, String userId ){
+        this.showtime =showtime;
+        this.seatNumber = seatNumber;
+        this.userId = userId;
+    }
 
     public long getShowtimeId() {
         return showtime.getId();
@@ -52,20 +62,8 @@ public class Booking {
         this.seatNumber = seatNumber;
     }
 
-
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public Booking(){}
-
-    public Booking( Showtime showtime , int seatNumber, String userId ){
-        if (seatNumber < 1 ){
-            throw new IllegalArgumentException("Seat number must be greater than 1");
-        }
-
-        this.showtime =showtime;
-        this.seatNumber = seatNumber;
-        this.userId = userId;
-    }
 }

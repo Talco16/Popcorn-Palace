@@ -1,8 +1,8 @@
-package com.popcornpalace.moviebookingsystem.controllers;
+package com.popcornpalace.moviebookingsystem.Controller;
 
-import com.popcornpalace.moviebookingsystem.models.Movie;
-import com.popcornpalace.moviebookingsystem.services.MovieService;
-import com.popcornpalace.moviebookingsystem.util.rqeuests.MovieRequest;
+import com.popcornpalace.moviebookingsystem.Model.Movie;
+import com.popcornpalace.moviebookingsystem.Service.MovieService;
+import com.popcornpalace.moviebookingsystem.Util.Reqeuest.MovieRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +29,8 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    // Todo: Need to add exceptions
     // GET Request to fetch all the Existing movies.
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Movie>> getAllMovies() {
         return ResponseEntity.ok(movieService.getAllMovies());
     }
@@ -39,11 +38,9 @@ public class MovieController {
     // POST Request to create new movie
     @PostMapping
     public ResponseEntity<?> createNewMovie(@Valid @RequestBody MovieRequest movie) {
-        try {
-            return ResponseEntity.ok(movieService.createNewMovie(movie));
-        } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return movieService.createNewMovie(movie)
+                .map(ResponseEntity::created)
+                .orElse(ResponseEntity.badRequest().build());
     }
 
     // PUT Request to update movie by id

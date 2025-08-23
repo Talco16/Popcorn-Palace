@@ -1,4 +1,4 @@
-package com.popcornpalace.moviebookingsystem.models;
+package com.popcornpalace.moviebookingsystem.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -69,6 +69,3 @@ public class Showtime {
 
     public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
 }
-
-
-

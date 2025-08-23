@@ -1,9 +1,8 @@
-package com.popcornpalace.moviebookingsystem.controllers;
+package com.popcornpalace.moviebookingsystem.Controller;
 
-import com.popcornpalace.moviebookingsystem.models.Movie;
-import com.popcornpalace.moviebookingsystem.models.Showtime;
-import com.popcornpalace.moviebookingsystem.services.ShowtimeService;
-import com.popcornpalace.moviebookingsystem.util.rqeuests.ShowtimeRequest;
+import com.popcornpalace.moviebookingsystem.Model.Showtime;
+import com.popcornpalace.moviebookingsystem.Service.ShowtimeService;
+import com.popcornpalace.moviebookingsystem.Util.Reqeuest.ShowtimeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

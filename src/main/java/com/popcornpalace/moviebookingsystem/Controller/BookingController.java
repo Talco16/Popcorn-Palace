@@ -1,8 +1,8 @@
-package com.popcornpalace.moviebookingsystem.controllers;
+package com.popcornpalace.moviebookingsystem.Controller;
 
-import com.popcornpalace.moviebookingsystem.models.Movie;
-import com.popcornpalace.moviebookingsystem.services.BookingService;
-import com.popcornpalace.moviebookingsystem.services.MovieService;
+import com.popcornpalace.moviebookingsystem.Model.Movie;
+import com.popcornpalace.moviebookingsystem.Service.BookingService;
+import com.popcornpalace.moviebookingsystem.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
