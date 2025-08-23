@@ -1,6 +1,6 @@
-package com.popcornpalace.moviebookingsystem.Repository;
+package com.popcornpalace.moviebookingsystem.repository;
 
-import com.popcornpalace.moviebookingsystem.Model.Showtime;
+import com.popcornpalace.moviebookingsystem.model.Showtime;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
@@ -24,18 +24,4 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT s FROM Showtime s WHERE s.id = :id")
     Optional<Showtime> findByIdWithLock(@Param("id") Long id);
-//
-//
-//    default Optional<Showtime> getShowTimeById(Long id) {
-//        return findById(id);
-//    }
-//
-//    default Showtime createNewShowTime(Showtime showtime) {
-//        return save(showtime);
-//    }
-//
-//    default void deleteMovie(Long id) {
-//        deleteById(id);
-//    }
 }
-

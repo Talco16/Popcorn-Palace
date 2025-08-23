@@ -1,11 +1,14 @@
-package com.popcornpalace.moviebookingsystem.Controller;
+package com.popcornpalace.moviebookingsystem.controller;
 
-import com.popcornpalace.moviebookingsystem.Model.Showtime;
-import com.popcornpalace.moviebookingsystem.Service.ShowtimeService;
-import com.popcornpalace.moviebookingsystem.Util.Reqeuest.ShowtimeRequest;
+import com.popcornpalace.moviebookingsystem.model.Showtime;
+import com.popcornpalace.moviebookingsystem.service.ShowtimeService;
+import com.popcornpalace.moviebookingsystem.util.reqeuest.ShowtimeRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 /**
  * ShowtimeController is responsible for managing Showtime in the system.
@@ -37,29 +40,26 @@ public class ShowtimeController {
 
     // POST Request to add showtime.
     @PostMapping
-    public ResponseEntity<?> createNewShowTime(@RequestBody ShowtimeRequest movie) {
-        try {
-            return ResponseEntity.ok(showtimeService.createNewShowTime(movie));
-        } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
-
-        return showtimeService.createNewShowTime(movie);
+    public ResponseEntity<?> createShowtime(@Valid @RequestBody ShowtimeRequest showtime) {
+        return showtimeService.createNewShowtime(showtime)
+                .map(saved -> ResponseEntity
+                        .created(URI.create("/api/showtimes/" + saved.getId()))
+                        .body(saved))
+                .orElse(ResponseEntity.badRequest().build());
     }
 
     // PUT Request to update showtime by id.
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> updateShowTime(@PathVariable Long id, @RequestBody ShowtimeRequest showtimeDetails) {
-        return showtimeService.updateShowTime(id, showtimeDetails)
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateShowTime(@PathVariable Long id, @RequestBody ShowtimeRequest showtime) {
+        return showtimeService.updateShowtime(id, showtime)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     // DELETE Request to update showtime by id.
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
-        if (showtimeService.deleteMovie(id)) {
+    public ResponseEntity<Void> deleteShowTime(@PathVariable Long id) {
+        if (showtimeService.deleteShowtime(id)) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

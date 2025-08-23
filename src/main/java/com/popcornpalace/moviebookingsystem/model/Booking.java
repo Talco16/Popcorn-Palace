@@ -1,4 +1,4 @@
-package com.popcornpalace.moviebookingsystem.Model;
+package com.popcornpalace.moviebookingsystem.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -46,6 +46,10 @@ public class Booking {
         return seatNumber;
     }
 
+    public void setShowtime(Showtime showtime) {
+        this.showtime = showtime;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -65,5 +69,4 @@ public class Booking {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-
 }

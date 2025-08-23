@@ -1,6 +1,6 @@
-package com.popcornpalace.moviebookingsystem.Repository;
+package com.popcornpalace.moviebookingsystem.repository;
 
-import com.popcornpalace.moviebookingsystem.Model.Movie;
+import com.popcornpalace.moviebookingsystem.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

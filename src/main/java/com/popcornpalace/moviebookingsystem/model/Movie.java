@@ -1,4 +1,4 @@
-package com.popcornpalace.moviebookingsystem.Model;
+package com.popcornpalace.moviebookingsystem.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

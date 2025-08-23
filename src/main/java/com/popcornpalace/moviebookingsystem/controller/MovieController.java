@@ -1,13 +1,14 @@
-package com.popcornpalace.moviebookingsystem.Controller;
+package com.popcornpalace.moviebookingsystem.controller;
 
-import com.popcornpalace.moviebookingsystem.Model.Movie;
-import com.popcornpalace.moviebookingsystem.Service.MovieService;
-import com.popcornpalace.moviebookingsystem.Util.Reqeuest.MovieRequest;
+import com.popcornpalace.moviebookingsystem.model.Movie;
+import com.popcornpalace.moviebookingsystem.service.MovieService;
+import com.popcornpalace.moviebookingsystem.util.reqeuest.MovieRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -39,7 +40,9 @@ public class MovieController {
     @PostMapping
     public ResponseEntity<?> createNewMovie(@Valid @RequestBody MovieRequest movie) {
         return movieService.createNewMovie(movie)
-                .map(ResponseEntity::created)
+                .map(saved -> ResponseEntity
+                        .created(URI.create("/api/movies/" + saved.getId()))
+                        .body(saved))
                 .orElse(ResponseEntity.badRequest().build());
     }
 

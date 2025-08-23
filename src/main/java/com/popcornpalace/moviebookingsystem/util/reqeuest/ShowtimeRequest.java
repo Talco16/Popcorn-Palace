@@ -1,4 +1,4 @@
-package com.popcornpalace.moviebookingsystem.Util.Reqeuest;
+package com.popcornpalace.moviebookingsystem.util.reqeuest;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
