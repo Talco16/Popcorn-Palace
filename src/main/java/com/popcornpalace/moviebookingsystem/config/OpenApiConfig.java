@@ -9,7 +9,7 @@ public class OpenApiConfig {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .group("public")  // זה מה שמייצר /v3/api-docs/public
+                .group("public")
                 .packagesToScan("com.popcornpalace.moviebookingsystem.controller")
                 .build();
     }

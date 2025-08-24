@@ -61,6 +61,8 @@ public class Showtime {
 
     public LocalDateTime getEndTime() { return endTime; }
 
+    public void setId(Long id) { this.id = id; }
+
     public void setPrice(double price) { this.price = price; }
 
     public void setMovie(Movie movie) { this.movie = movie; }

@@ -14,7 +14,7 @@ INSERT INTO showtimes (movie_id, theater, start_time, end_time, price) VALUES
 
 INSERT INTO bookings (showtime_id, user_id, seat_number) VALUES
                                                              (1, 'a3f5c6d7-1111-2222-3333-444444444444'::uuid, 1),
-                                                             (1, 'a3f5c6d7-1111-2222-3333-444444444444'::uuid, 10),
+                                                             (1, 'a3f5c6d7-1111-2232-3333-444444444444'::uuid, 10),
                                                              (2, 'b7e8f9a0-5555-6666-7777-888888888888'::uuid, 20),
                                                              (3, 'c1d2e3f4-9999-aaaa-bbbb-cccccccccccc'::uuid, 15),
                                                              (4, 'd1e2f3a4-dddd-eeee-ffff-000000000000'::uuid, 16);
