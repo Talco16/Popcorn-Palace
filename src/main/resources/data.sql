@@ -12,9 +12,9 @@ INSERT INTO showtimes (movie_id, theater, start_time, end_time, price) VALUES
                                                                            (3, 'Hot Cinema oshiland', '2025-08-26 16:00:00', '2025-08-26 18:00:00', 18.00),
                                                                            (4, 'Hot Cinema Grand Haifa', '2025-08-27 15:30:00', '2025-08-27 18:00:00', 10.00);
 
--- INSERT INTO bookings (showtime_id, user_id, seat_number) VALUES
---                                                                                ( 1, 'a3f5c6d7-1111-2222-3333-444444444444', 1),
---                                                                                ( 1, 'a3f5c6d7-1111-2222-3333-444444444444', 10),
---                                                                                ( 2, 'b7e8f9a0-5555-6666-7777-888888888888', 20),
---                                                                                ( 3, 'c1d2e3f4-9999-aaaa-bbbb-cccccccccccc', 15),
---                                                                                ( 4, 'd1e2f3a4-dddd-eeee-ffff-000000000000', 16);
+INSERT INTO bookings (showtime_id, user_id, seat_number) VALUES
+                                                             (1, 'a3f5c6d7-1111-2222-3333-444444444444'::uuid, 1),
+                                                             (1, 'a3f5c6d7-1111-2222-3333-444444444444'::uuid, 10),
+                                                             (2, 'b7e8f9a0-5555-6666-7777-888888888888'::uuid, 20),
+                                                             (3, 'c1d2e3f4-9999-aaaa-bbbb-cccccccccccc'::uuid, 15),
+                                                             (4, 'd1e2f3a4-dddd-eeee-ffff-000000000000'::uuid, 16);

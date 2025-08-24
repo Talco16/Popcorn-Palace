@@ -29,7 +29,7 @@ public class BookingService {
     }
 
     @Transactional
-    public BookingResponse bookTicket(@Valid BookingRequest bookingRequest) {
+    public Booking bookTicket(@Valid BookingRequest bookingRequest) {
         Showtime showtime = showtimeRepository.findByIdWithLock(bookingRequest.getShowtimeId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Showtime not found: " + bookingRequest.getShowtimeId()));
@@ -47,11 +47,9 @@ public class BookingService {
         booking.setUserId(UUID.fromString(bookingRequest.getUserId()));
 
         try {
-            bookingRepository.saveAndFlush(booking);
+            return bookingRepository.saveAndFlush(booking);
         } catch (DataIntegrityViolationException e) {
             throw new IllegalStateException("Seat already booked: " + seat, e);
         }
-
-        return new BookingResponse(showtime.getId(), userId, seat);
     }
 }

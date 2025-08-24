@@ -1,5 +1,6 @@
 package com.popcornpalace.moviebookingsystem.controller;
 
+import com.popcornpalace.moviebookingsystem.model.Booking;
 import com.popcornpalace.moviebookingsystem.service.BookingService;
 import com.popcornpalace.moviebookingsystem.util.reqeuest.BookingRequest;
 import com.popcornpalace.moviebookingsystem.util.response.BookingResponse;
@@ -30,8 +31,8 @@ public class BookingController {
 
     // Post request for booking ticket.
     @PostMapping
-    public ResponseEntity<BookingResponse> bookTicket(@Valid @RequestBody BookingRequest bookingRequest) {
-        BookingResponse resp = bookingService.bookTicket(bookingRequest);
+    public ResponseEntity<Booking> bookTicket(@Valid @RequestBody BookingRequest bookingRequest) {
+        Booking resp = bookingService.bookTicket(bookingRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
 }

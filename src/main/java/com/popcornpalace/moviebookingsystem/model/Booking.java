@@ -2,7 +2,10 @@ package com.popcornpalace.moviebookingsystem.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
@@ -27,8 +30,9 @@ public class Booking {
     @Column(name = "seat_number", nullable = false)
     private int seatNumber;
 
-    @NotBlank
-    @Column(nullable = false)
+    @NotNull
+    @JdbcTypeCode(SqlTypes.UUID)               // מבטיח מיפוי UUID אמיתי בפוסטגרס
+    @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
     private UUID userId;
 
     public Booking(){}
