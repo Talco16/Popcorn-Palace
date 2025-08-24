@@ -2,7 +2,13 @@ package com.popcornpalace.moviebookingsystem.controller;
 
 import com.popcornpalace.moviebookingsystem.model.Booking;
 import com.popcornpalace.moviebookingsystem.service.BookingService;
+import com.popcornpalace.moviebookingsystem.util.exception.ErrorResponse;
 import com.popcornpalace.moviebookingsystem.util.reqeuest.BookingRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +35,13 @@ public class BookingController {
     }
 
     // Post request for booking ticket.
+    @Operation(summary = "Book ticket", description = "Books a ticket for a showtime")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Created",
+                    content = @Content(schema = @Schema(implementation = Booking.class))),
+            @ApiResponse(responseCode = "409", description = "Seat already booked",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PostMapping
     public ResponseEntity<Booking> bookTicket(@Valid @RequestBody BookingRequest bookingRequest) {
         Booking resp = bookingService.bookTicket(bookingRequest);

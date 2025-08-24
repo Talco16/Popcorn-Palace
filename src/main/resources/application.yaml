@@ -29,7 +29,17 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info   # או "*" לכל האנדפוינטים
+        include: health,info
   endpoint:
     health:
       show-details: always
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: public
+        url: /v3/api-docs/public
+    urls-primary-name: public
