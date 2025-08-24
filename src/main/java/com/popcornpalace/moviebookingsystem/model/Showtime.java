@@ -1,5 +1,6 @@
 package com.popcornpalace.moviebookingsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -18,6 +19,7 @@ public class Showtime {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Movie movie;
 
     @Column(nullable = false)

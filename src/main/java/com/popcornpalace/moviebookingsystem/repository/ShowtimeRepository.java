@@ -2,6 +2,7 @@ package com.popcornpalace.moviebookingsystem.repository;
 
 import com.popcornpalace.moviebookingsystem.model.Showtime;
 import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,8 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT s FROM Showtime s WHERE s.id = :id")
     Optional<Showtime> findByIdWithLock(@Param("id") Long id);
+
+    @EntityGraph(attributePaths = "movie")
+    @Query("select s from Showtime s where s.id = :id")
+    Optional<Showtime> findWithMovieById(@Param("id") Long id);
 }

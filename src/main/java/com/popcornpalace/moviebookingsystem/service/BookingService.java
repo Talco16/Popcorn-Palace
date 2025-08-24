@@ -13,6 +13,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 public class BookingService {
 
@@ -42,7 +44,7 @@ public class BookingService {
         Booking booking = new Booking();
         booking.setShowtime(showtime);
         booking.setSeatNumber(seat);
-        booking.setUserId(userId);
+        booking.setUserId(UUID.fromString(bookingRequest.getUserId()));
 
         try {
             bookingRepository.saveAndFlush(booking);

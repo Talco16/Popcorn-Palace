@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "bookings",
         uniqueConstraints = {
@@ -27,11 +29,11 @@ public class Booking {
 
     @NotBlank
     @Column(nullable = false)
-    private String userId;
+    private UUID userId;
 
     public Booking(){}
 
-    public Booking( Showtime showtime , int seatNumber, String userId ){
+    public Booking( Showtime showtime , int seatNumber, UUID userId ){
         this.showtime =showtime;
         this.seatNumber = seatNumber;
         this.userId = userId;
@@ -49,7 +51,7 @@ public class Booking {
         this.showtime = showtime;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
@@ -65,7 +67,7 @@ public class Booking {
         this.seatNumber = seatNumber;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 }

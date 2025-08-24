@@ -2,6 +2,7 @@ package com.popcornpalace.moviebookingsystem.util.reqeuest;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,8 @@ public class BookingRequest {
     @NotNull(message = "Showtime id is required")
     private Long showtimeId;
 
-    @NotBlank(message = "Seat number is required")
+    @NotNull
+    @Positive
     private int seatNumber;
 
     @NotBlank
