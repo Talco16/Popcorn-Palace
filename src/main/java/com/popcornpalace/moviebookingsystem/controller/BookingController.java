@@ -3,7 +3,6 @@ package com.popcornpalace.moviebookingsystem.controller;
 import com.popcornpalace.moviebookingsystem.model.Booking;
 import com.popcornpalace.moviebookingsystem.service.BookingService;
 import com.popcornpalace.moviebookingsystem.util.reqeuest.BookingRequest;
-import com.popcornpalace.moviebookingsystem.util.response.BookingResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

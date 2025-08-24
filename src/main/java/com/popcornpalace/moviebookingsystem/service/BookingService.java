@@ -5,7 +5,6 @@ import com.popcornpalace.moviebookingsystem.model.Showtime;
 import com.popcornpalace.moviebookingsystem.repository.BookingRepository;
 import com.popcornpalace.moviebookingsystem.repository.ShowtimeRepository;
 import com.popcornpalace.moviebookingsystem.util.reqeuest.BookingRequest;
-import com.popcornpalace.moviebookingsystem.util.response.BookingResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
