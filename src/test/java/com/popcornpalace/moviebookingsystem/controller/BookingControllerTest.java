@@ -95,7 +95,6 @@ public class BookingControllerTest {
 
     @Test
     void bookTicket_validationError_returns400() throws Exception {
-        // missing fields (seatNumber לא חוקי, userId חסר)
         String badJson = """
         {"showtimeId":7,"seatNumber":0}
         """;

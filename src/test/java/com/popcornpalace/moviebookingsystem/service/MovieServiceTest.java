@@ -1,127 +1,127 @@
 package com.popcornpalace.moviebookingsystem.service;
 
 import com.popcornpalace.moviebookingsystem.model.Movie;
-import com.popcornpalace.moviebookingsystem.model.Showtime;
 import com.popcornpalace.moviebookingsystem.repository.MovieRepository;
-import com.popcornpalace.moviebookingsystem.repository.ShowtimeRepository;
-import com.popcornpalace.moviebookingsystem.util.reqeuest.ShowtimeRequest;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.popcornpalace.moviebookingsystem.util.reqeuest.MovieRequest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-@Service
-@Transactional(readOnly = true)
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class MovieServiceTest {
 
-    private final ShowtimeRepository showtimeRepository;
-    private final MovieRepository movieRepository;
+    @Mock
+    MovieRepository movieRepository;
 
-    public MovieServiceTest(ShowtimeRepository showtimeRepository,
-                            MovieRepository movieRepository) {
-        this.showtimeRepository = showtimeRepository;
-        this.movieRepository = movieRepository;
+    @InjectMocks
+    MovieService movieService;
+
+    @Test
+    void getAllMovies_returnsList() {
+        when(movieRepository.findAll()).thenReturn(List.of(new Movie(), new Movie()));
+
+        List<Movie> result = movieService.getAllMovies();
+
+        assertThat(result).hasSize(2);
+        verify(movieRepository).findAll();
     }
 
-    public Optional<Showtime> getShowTimeById(Long id) {
-        return showtimeRepository.findById(id);
-    }
+    @Test
+    void createNewMovie_persistsAndReturnsMovie() {
+        MovieRequest req = new MovieRequest();
+        req.setTitle("Inception");
+        req.setGenre("Sci-Fi");
+        req.setDuration(148);
+        req.setReleaseYear(2010);
+        req.setRating(8.8);
 
-
-    @Transactional
-    public Optional<Showtime> createNewShowtime(@Valid ShowtimeRequest req) {
-        Movie movie = movieRepository.findById(req.getMovieId())
-                .orElseThrow(() -> new EntityNotFoundException("Movie not found: " + req.getMovieId()));
-
-        String theater = normalize(req.getTheater());
-        LocalDateTime start = requireTimes(req.getStartTime(), "startTime");
-        LocalDateTime end   = requireTimes(req.getEndTime(),   "endTime");
-        requireEndAfterStart(start, end);
-        requirePrice(req.getPrice());
-
-        List<Showtime> overlaps = showtimeRepository
-                .findShowtimesByTimesAndTheater(start, end, theater);
-
-        if (!overlaps.isEmpty()) {
-            throw new IllegalStateException("Showtime overlaps in theater: " + theater);
-        }
-
-        Showtime newShowTime = new Showtime();
-        newShowTime.setMovie(movie);
-        newShowTime.setTheater(theater);
-        newShowTime.setStartTime(start);
-        newShowTime.setEndTime(end);
-        newShowTime.setPrice(req.getPrice());
-
-        return Optional.of(showtimeRepository.save(newShowTime));
-    }
-
-    @Transactional
-    public Optional<Showtime> updateShowtime(Long id, @Valid ShowtimeRequest updatedShowtime) {
-        return showtimeRepository.findById(id).map(showtime -> {
-            if (!Objects.equals(showtime.getMovie().getId(), updatedShowtime.getMovieId())) {
-                Movie movie = movieRepository.findById(updatedShowtime.getMovieId())
-                        .orElseThrow(() -> new EntityNotFoundException("Movie not found: " + updatedShowtime.getMovieId()));
-                showtime.setMovie(movie);
-            }
-
-            String theater = normalize(updatedShowtime.getTheater());
-            LocalDateTime start = requireTimes(updatedShowtime.getStartTime(), "startTime");
-            LocalDateTime end   = requireTimes(updatedShowtime.getEndTime(),   "endTime");
-            requireEndAfterStart(start, end);
-            requirePrice(updatedShowtime.getPrice());
-
-            List<Showtime> overlaps = showtimeRepository
-                    .findShowtimesByTimesAndTheater(start, end, theater);
-            boolean hasOtherOverlap = overlaps.stream()
-                    .anyMatch(s -> !s.getId().equals(showtime.getId()));
-
-            if (hasOtherOverlap) {
-                throw new IllegalStateException("Updated showtime overlaps in theater: " + theater);
-            }
-
-            showtime.setTheater(theater);
-            showtime.setStartTime(start);
-            showtime.setEndTime(end);
-            showtime.setPrice(updatedShowtime.getPrice());
-
-            return showtime;
+        when(movieRepository.save(any(Movie.class))).thenAnswer(inv -> {
+            Movie m = inv.getArgument(0);
+            m.setId(100L);
+            return m;
         });
+
+        Optional<Movie> saved = movieService.createNewMovie(req);
+
+        assertThat(saved).isPresent();
+        assertThat(saved.get().getId()).isEqualTo(100L);
+        assertThat(saved.get().getTitle()).isEqualTo("Inception");
+        verify(movieRepository).save(any(Movie.class));
     }
 
-    @Transactional
-    public boolean deleteShowtime(Long id) {
-        if (!showtimeRepository.existsById(id)) return false;
-        showtimeRepository.deleteById(id);
-        return true;
+    @Test
+    void updateMovie_whenExists_updatesAndReturns() {
+        Movie existing = new Movie();
+        existing.setId(5L);
+        existing.setTitle("Old");
+        existing.setGenre("Drama");
+        existing.setDuration(100);
+        existing.setReleaseYear(2000);
+        existing.setRating(6.0);
+
+        when(movieRepository.findById(5L)).thenReturn(Optional.of(existing));
+
+        MovieRequest req = new MovieRequest();
+        req.setTitle("New");
+        req.setGenre("Action");
+        req.setDuration(120);
+        req.setReleaseYear(2024);
+        req.setRating(9.1);
+
+        Optional<Movie> updated = movieService.updateMovie(5L, req);
+
+        assertThat(updated).isPresent();
+        Movie m = updated.get();
+        assertThat(m.getTitle()).isEqualTo("New");
+        assertThat(m.getGenre()).isEqualTo("Action");
+        assertThat(m.getDuration()).isEqualTo(120);
+        assertThat(m.getReleaseYear()).isEqualTo(2024);
+        assertThat(m.getRating()).isEqualTo(9.1);
+        // שימי לב: אין קריאת save() בשירות (נסמך על dirty checking) — זה בסדר.
+        verify(movieRepository).findById(5L);
+        verifyNoMoreInteractions(movieRepository);
     }
 
-    private static String normalize(String theater) {
-        if (theater == null || theater.isBlank()) {
-            throw new IllegalArgumentException("Theater is required");
-        }
-        return theater.trim();
+    @Test
+    void updateMovie_whenNotExists_returnsEmpty() {
+        when(movieRepository.findById(999L)).thenReturn(Optional.empty());
+
+        Optional<Movie> updated = movieService.updateMovie(999L, new MovieRequest());
+
+        assertThat(updated).isEmpty();
+        verify(movieRepository).findById(999L);
     }
 
-    private static LocalDateTime requireTimes(LocalDateTime time, String field) {
-        if (time == null) throw new IllegalArgumentException(field + " is required");
-        return time;
+    @Test
+    void deleteMovie_whenExists_deletesAndReturnsTrue() {
+        when(movieRepository.existsById(10L)).thenReturn(true);
+
+        boolean deleted = movieService.deleteMovie(10L);
+
+        assertThat(deleted).isTrue();
+        verify(movieRepository).existsById(10L);
+        verify(movieRepository).deleteById(10L);
     }
 
-    private static void requireEndAfterStart(LocalDateTime start, LocalDateTime end) {
-        if (!end.isAfter(start)) {
-            throw new IllegalArgumentException("endTime must be after startTime");
-        }
-    }
+    @Test
+    void deleteMovie_whenNotExists_returnsFalse() {
+        when(movieRepository.existsById(11L)).thenReturn(false);
 
-    private static void requirePrice(double price) {
-        if (price < 1.0) {
-            throw new IllegalArgumentException("Price must be >= 1.0");
-        }
+        boolean deleted = movieService.deleteMovie(11L);
+
+        assertThat(deleted).isFalse();
+        verify(movieRepository).existsById(11L);
+        verify(movieRepository, never()).deleteById(anyLong());
     }
 }
