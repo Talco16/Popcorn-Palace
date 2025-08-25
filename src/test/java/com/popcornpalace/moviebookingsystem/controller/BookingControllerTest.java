@@ -50,7 +50,6 @@ public class BookingControllerTest {
     req.setUserId("a3f5c6d7-1111-2222-3333-444444444444");
     req.setSeatNumber(11);
 
-    // and service response
     Booking saved = new Booking();
     saved.setId(100L);
     Showtime st = new Showtime();

@@ -40,4 +40,5 @@ docker compose down
 
 Explore them via Swagger UI at /swagger-ui.html.
 
-## Created by Tal Cohen
+## 👤 Author
+Created by Tal Cohen

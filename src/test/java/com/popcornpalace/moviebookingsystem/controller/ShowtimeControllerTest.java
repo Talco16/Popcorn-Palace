@@ -21,7 +21,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @ActiveProfiles("test")
-@WebMvcTest(controllers = ShowtimeController.class) // השם לפי המחלקה שלך
+@WebMvcTest(controllers = ShowtimeController.class)
 class ShowtimeControllerTest {
 
   @Autowired MockMvc mockMvc;
@@ -49,7 +49,6 @@ class ShowtimeControllerTest {
 
   @Test
   void create_validationError_returns400() throws Exception {
-    // בכוונה חסרים שדות חובה
     ShowtimeRequest bad = new ShowtimeRequest();
     bad.setMovieId(null);
 
@@ -74,7 +73,6 @@ class ShowtimeControllerTest {
     }
     """;
 
-    // מוקים לשירות
     Showtime saved = new Showtime();
     saved.setId(10L);
     Movie m = new Movie();

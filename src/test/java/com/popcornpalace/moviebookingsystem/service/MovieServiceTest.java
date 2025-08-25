@@ -87,7 +87,6 @@ public class MovieServiceTest {
     assertThat(m.getDuration()).isEqualTo(120);
     assertThat(m.getReleaseYear()).isEqualTo(2024);
     assertThat(m.getRating()).isEqualTo(9.1);
-    // שימי לב: אין קריאת save() בשירות (נסמך על dirty checking) — זה בסדר.
     verify(movieRepository).findById(5L);
     verifyNoMoreInteractions(movieRepository);
   }

@@ -46,4 +46,5 @@ Navigate to: http://localhost:8080/swagger-ui.html
 
 You’ll see the endpoints grouped by controller (Movies, Showtimes, Bookings).
 
-## Created by Tal Cohen
+## 👤 Author
+Created by Tal Cohen

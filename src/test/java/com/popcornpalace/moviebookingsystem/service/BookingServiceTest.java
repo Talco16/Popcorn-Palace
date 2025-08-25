@@ -33,7 +33,6 @@ class BookingServiceTest {
 
   @Test
   void bookTicket_success_savesAndReturnsBooking() {
-    // given
     BookingRequest req = new BookingRequest();
     req.setShowtimeId(7L);
     req.setUserId("a3f5c6d7-1111-2222-3333-444444444444");
@@ -51,10 +50,8 @@ class BookingServiceTest {
               return b;
             });
 
-    // when
     Booking saved = bookingService.bookTicket(req);
 
-    // then
     assertThat(saved.getId()).isEqualTo(555L);
     assertThat(saved.getShowtimeId()).isEqualTo(7L);
     assertThat(saved.getSeatNumber()).isEqualTo(11);

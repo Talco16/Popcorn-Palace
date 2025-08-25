@@ -30,7 +30,7 @@ class ShowtimeServiceTest {
   @Mock ShowtimeRepository showtimeRepository;
   @Mock MovieRepository movieRepository;
 
-  @InjectMocks ShowtimeService showtimeService; // השם לפי המחלקה שלך
+  @InjectMocks ShowtimeService showtimeService;
 
   @Test
   void getShowTimeById_found() {
@@ -46,29 +46,25 @@ class ShowtimeServiceTest {
 
   @Test
   void createShowtime_success() {
-    // given
     Movie m = new Movie();
     m.setId(1L);
     when(movieRepository.findById(1L)).thenReturn(Optional.of(m));
 
-    // קובעים זמן בסיס קבוע כדי למנוע פלייקיות
     LocalDateTime base = LocalDateTime.of(2030, 1, 1, 10, 0);
-    LocalDateTime start = base.plusHours(1); // 11:00
-    LocalDateTime end = base.plusHours(3); // 13:00
+    LocalDateTime start = base.plusHours(1);
+    LocalDateTime end = base.plusHours(3);
 
     ShowtimeRequest req = new ShowtimeRequest();
     req.setMovieId(1L);
-    req.setTheater("  Hall A  "); // עם רווחים – השירות מנרמל ל"Hall A"
+    req.setTheater("  Hall A  ");
     req.setStartTime(start);
     req.setEndTime(end);
     req.setPrice(25.0);
 
-    // אין חפיפות
     when(showtimeRepository.findShowtimesByTimesAndTheater(
             any(LocalDateTime.class), any(LocalDateTime.class), eq("Hall A")))
         .thenReturn(Collections.emptyList());
 
-    // החזרה של ה־entity עם מזהה אחרי save
     when(showtimeRepository.save(any(Showtime.class)))
         .thenAnswer(
             inv -> {
@@ -77,10 +73,8 @@ class ShowtimeServiceTest {
               return s;
             });
 
-    // when
     Optional<Showtime> createdOpt = showtimeService.createNewShowtime(req);
 
-    // then
     assertThat(createdOpt).isPresent();
     Showtime created = createdOpt.orElseThrow();
 
@@ -91,7 +85,6 @@ class ShowtimeServiceTest {
     assertThat(created.getEndTime()).isEqualTo(end);
     assertThat(created.getPrice()).isEqualTo(25.0);
 
-    // אופציונלי: וידוא אינטראקציות
     verify(movieRepository).findById(1L);
     verify(showtimeRepository).findShowtimesByTimesAndTheater(start, end, "Hall A");
     verify(showtimeRepository).save(any(Showtime.class));
