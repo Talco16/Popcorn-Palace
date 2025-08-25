@@ -8,13 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BookingRequest {
-    @NotNull(message = "Showtime id is required")
-    private Long showtimeId;
+  @NotNull(message = "Showtime id is required")
+  private Long showtimeId;
 
-    @NotNull
-    @Positive
-    private int seatNumber;
+  @NotNull @Positive private int seatNumber;
 
-    @NotNull
-    private String userId;
+  @NotNull private String userId;
 }
